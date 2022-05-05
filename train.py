@@ -53,10 +53,13 @@ class Trainer:
 				if f1_dev > self.best_dev:
 					self.best_dev = f1_dev
 					self.best_model = self.model
+					fitlog.add_best_metric({"test": {"f1": self.best_dev}})
 		f1_test = self.test()
+		fitlog.add_best_metric({"test": {"f1": f1_test}})
 		test_info = 'TEST  f1_test:{}'.format(f1_test)
 		print(test_info)
 		self.logger.info(test_info)
+		fitlog.finish()  # finish the logging
 
 	def eval(self):
 		args = self.args
