@@ -9,6 +9,13 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="2080ti-2">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/lich/BERT_NER" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="notebook-1b46">
         <serverdata>
           <mappings>
@@ -26,7 +33,7 @@
       <paths name="titan">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/home/lich/BERT_NER" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

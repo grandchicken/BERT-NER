@@ -35,6 +35,32 @@ def load_data(file_path):
 
 	return total_data,total_label
 
+def load_data_twitter(file_path):
+	total_data = []
+	total_label = []
+	with open(file_path, 'r', encoding='utf-8') as f:
+		line = f.readlines()
+		for i, l in enumerate(line):
+			l = l.strip()
+			if i % 3 == 0:
+				temp_data = l.split(' ')
+				total_data.append(temp_data)
+			elif i%3 == 1:
+				temp_label = l.split(' ')
+				refined_label = []
+				for label in temp_label:
+					if label == 'B-MISC':
+						new_label = 'B-OTHER'
+					elif label == 'I-MISC':
+						new_label = 'I-OTHER'
+					else:
+						new_label = label
+					refined_label.append(new_label)
+				total_label.append(refined_label)
+	return total_data,total_label
+
+
+
 class Prepare:
 	def __init__(self,args,label_list,total_data,total_label):
 		self.args = args

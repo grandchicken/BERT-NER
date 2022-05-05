@@ -1,4 +1,4 @@
-from load_data import load_data,Prepare,NER_Dataset
+from load_data import load_data,load_data_twitter,Prepare,NER_Dataset
 import argparse
 import torch
 import numpy as np
@@ -11,7 +11,7 @@ import os
 from torch.utils.data import DataLoader
 from model import BERT_NER
 from train import Trainer
-
+import fitlog
 def define_log(args):
     timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     log_dir = os.path.join(args.log_dir, timestamp)
@@ -28,6 +28,7 @@ def parse_args():
     parser.add_argument('--pretrain_path',
                         default='/home/data_ti6_d/lich/Multimodal_NER/Rp_BERT/pretrained/bert-base-cased',
                         type=str)
+    parser.add_argument('--dataset',default='conll2003',type=str,choices=['conll2003','twitter'])
     parser.add_argument('--train_path',default='data/conll2003/train.txt',type=str)
     parser.add_argument('--dev_path',default='data/conll2003/dev.txt',type=str)
     parser.add_argument('--test_path',default='data/conll2003/test.txt',type=str)
@@ -52,9 +53,12 @@ def parse_args():
 args = parse_args()
 logger = define_log(args)
 label_list = ['[PAD]',"O", "B-OTHER", "I-OTHER", "B-PER", "I-PER", "B-ORG", "I-ORG", "B-LOC", "I-LOC", "X", "[CLS]", "[SEP]"]
-# tensorboard_dir = 'tlog/'
-# if not os.path.exists(tensorboard_dir):
-#     os.makedirs(tensorboard_dir)
+fitlog_dir = 'flog/'
+if not os.path.exists(fitlog_dir):
+    os.makedirs(fitlog_dir)
+fitlog.set_log_dir(fitlog_dir)
+fitlog.add_hyper(args)  # 通过这种方式记录ArgumentParser的参数
+fitlog.add_hyper_in_file(__file__)  # 记录本文件中写死的超参数
 
 def fix_seed(args):
     torch.manual_seed(args.seed)
@@ -64,9 +68,15 @@ def fix_seed(args):
     random.seed(args.seed)
     cudnn.deterministic = True
 fix_seed(args)
-train_data,train_label = load_data(args.train_path)
-dev_data,dev_label = load_data(args.dev_path)
-test_data,test_label = load_data(args.test_path)
+
+if args.dataset == 'conll2003':
+    train_data,train_label = load_data(args.train_path)
+    dev_data,dev_label = load_data(args.dev_path)
+    test_data,test_label = load_data(args.test_path)
+elif args.dataset == 'twitter':
+    train_data, train_label = load_data_twitter(args.train_path)
+    dev_data, dev_label = load_data_twitter(args.dev_path)
+    test_data, test_label = load_data_twitter(args.test_path)
 
 p_train = Prepare(args,label_list,train_data,train_label)
 p_dev = Prepare(args,label_list,dev_data,dev_label)

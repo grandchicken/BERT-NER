@@ -16,6 +16,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="2954e665-dfd6-4a8c-bea8-dfa5da34222a" name="2080ti-2">
+        <fileTransfer accessType="SFTP" host="210.28.134.55" port="22" sshConfigId="075ecc09-1d36-4a2e-adce-54c1906b0000" sshConfig="2080ti-2">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

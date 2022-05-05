@@ -2,6 +2,7 @@ from transformers import AdamW
 from utils import liner_warmup,set_lr,clip_gradient
 from torch.nn import CrossEntropyLoss
 from seqeval.metrics import classification_report,f1_score
+import fitlog
 
 class Trainer:
 	def __init__(self,args,logger,model,label_map,train_dataloader,dev_dataloader,test_dataloader):
@@ -18,13 +19,16 @@ class Trainer:
 		args = self.args
 		self.model.train()
 		optimizer = AdamW(self.model.parameters(), lr=args.lr, betas=(0.9, 0.999))
+		step = 0
 		for epoch in range(args.epochs):
 			total_step = len(self.train_dataloader)
 			for i,batch in enumerate(self.train_dataloader):
+				step += 1
 				input_ids,attention_mask,label_ids = batch
 				input_ids,attention_mask,label_ids = input_ids.to(args.device),\
 													 attention_mask.to(args.device),label_ids.to(args.device)
 				loss = self.model.forward(input_ids,attention_mask,label_ids,is_training=True)
+				fitlog.add_loss(loss, name="Loss",step = step)
 				train_info = 'Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'.format(
 	                epoch + 1, args.epochs, i + 1, total_step, loss.item())
 				print(train_info)
@@ -43,6 +47,7 @@ class Trainer:
 			if (epoch+1) % args.eval_every == 0:
 				f1_dev = self.eval()
 				dev_info = 'DEV  f1_dev:{}'.format(f1_dev)
+				fitlog.add_metric({"dev": {"f1": f1_dev}},step = step)
 				print(dev_info)
 				self.logger.info(dev_info)
 				if f1_dev > self.best_dev:
