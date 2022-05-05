@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d22e3ae4-54a6-447f-ac78-113be4e165dc" name="v100-13">
+        <fileTransfer accessType="SFTP" host="210.28.133.13" port="20659" sshConfigId="3bdd00b5-4504-44ac-88ed-237ab07f5386" sshConfig="v100-13">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="978ae4bd-1246-4248-88a6-1a6f2160cac3" name="titan">
+        <fileTransfer accessType="SFTP" host="210.28.134.152" port="22" sshConfigId="ff03fa57-54d2-4c48-80df-002147439f34" sshConfig="titan">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

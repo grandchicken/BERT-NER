@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="210.28.132.175" id="da7a904b-17ce-4fec-841d-ef362684289b" port="22" customName="10806_nlp" nameFormat="CUSTOM" username="nlper">
+        <option name="customName" value="10806_nlp" />
+      </sshConfig>
+      <sshConfig authType="PASSWORD" host="210.28.134.152" id="ff03fa57-54d2-4c48-80df-002147439f34" port="22" customName="titan" nameFormat="CUSTOM" username="lich">
+        <option name="customName" value="titan" />
+      </sshConfig>
+    </configs>
+  </component>
+</project>
